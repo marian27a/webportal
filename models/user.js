@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var workerSchema = new Schema({
+var userSchema = new Schema({
     firstName: {
         type: String,
         required: true
@@ -21,6 +21,6 @@ var workerSchema = new Schema({
 }, {
     timestamps: true
 });
-var Workers = mongoose.model('Worker', workerSchema);
+var Users = mongoose.model('User', userSchema);
 
-module.exports = Workers;
+module.exports = Users;
