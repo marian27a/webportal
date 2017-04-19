@@ -1,12 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
 var Verify = require('./verify');
 
 
 /* GET users listing. */
-router.get('/', Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
+router.get('/',Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) { //Verify.verifyOrdinaryUser, Verify.verifyAdmin
     User.find({}, function (err, user) {
         if (err) throw err;
         res.json(user);
@@ -14,7 +15,7 @@ router.get('/', Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res
 });
 
 router.post('/register', function(req, res) {
-    User.register(new User({ username : req.body.username }),
+    User.register(new User({username : req.body.username}),
       req.body.password, function(err, user) {
         if (err) {
             return res.status(500).json({err: err});
@@ -54,9 +55,7 @@ router.post('/login', function(req, res, next) {
 
 router.get('/logout', function(req, res) {
     req.logout();
-  res.status(200).json({
-    status: 'Bye!'
-  });
+  res.status(200).sendFile(path.join(path.normalize(__dirname + '/..') + '/public/index.html'));
 });
 
 module.exports = router;
